@@ -1,0 +1,14 @@
+services:
+  liquidmemo:
+    build:
+      context: https://github.com/Shishimaru-440/liquidmemo/archive/refs/heads/main.tar.gz
+    image: liquidmemo:latest
+    container_name: liquidmemo
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "3300:3000"
+    volumes:
+      - /volume1/docker/obsidian-lsio/config/Vaults/Vault/00_Inbox:/data/inbox
+    environment:
+      - INBOX_DIR_PATH=/data/inbox
