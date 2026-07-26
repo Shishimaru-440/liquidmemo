@@ -36,13 +36,16 @@ export default function Home() {
   const propertiesRef = useRef(properties);
   propertiesRef.current = properties;
 
-  const refreshFiles = useCallback(() => {
+  const refreshFilesNow = useCallback(() => {
     fetchFileList().then(setFiles).catch(() => {});
   }, []);
+  // SSE can fire many events in a burst (e.g. a phone dumping a batch of synced
+  // notes); coalesce them into a single re-scan instead of one full readdir+stat per event.
+  const refreshFiles = useDebouncedCallback(refreshFilesNow, 300);
 
   useEffect(() => {
-    refreshFiles();
-  }, [refreshFiles]);
+    refreshFilesNow();
+  }, [refreshFilesNow]);
 
   const persist = useDebouncedCallback(async (nextBody: string) => {
     const trimmed = nextBody.trim();
