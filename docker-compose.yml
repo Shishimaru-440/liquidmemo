@@ -2,7 +2,6 @@ services:
   liquidmemo:
     build:
       context: .
-    image: liquidmemo:latest
     container_name: liquidmemo
     restart: unless-stopped
     user: "1000:1000"
