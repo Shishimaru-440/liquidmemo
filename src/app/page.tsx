@@ -217,7 +217,9 @@ export default function Home() {
       )}
 
       <main className={styles.editorArea}>
-        <NoteEditor initialBody={body} resetKey={resetKey} onChange={handleEditorChange} />
+        <div className={styles.editorCard}>
+          <NoteEditor initialBody={body} resetKey={resetKey} onChange={handleEditorChange} />
+        </div>
       </main>
     </div>
   );

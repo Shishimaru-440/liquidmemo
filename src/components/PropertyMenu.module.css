@@ -8,7 +8,6 @@
   background: var(--glass-bg);
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -34,7 +33,6 @@
   background: linear-gradient(180deg, rgba(42, 34, 72, 0.75), rgba(24, 19, 46, 0.75));
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   animation: pop 0.3s var(--spring);
   z-index: 30;
 }

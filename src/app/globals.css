@@ -36,7 +36,14 @@ html,
 body {
   height: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
+  /* iOS Safari will otherwise scroll the whole document (dragging our fixed header
+     along with it) to keep a focused input visible above the on-screen keyboard.
+     Pinning html/body in place means the ONLY thing that can ever scroll is
+     .editorArea's own overflow, so the header has nowhere to be dragged to. */
+  position: fixed;
+  inset: 0;
+  overscroll-behavior: none;
 }
 
 body {

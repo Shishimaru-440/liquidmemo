@@ -33,7 +33,6 @@
   background: var(--glass-bg);
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   transition: background 0.25s var(--ease), transform 0.2s var(--spring);
 }
 
@@ -67,7 +66,6 @@
   background: var(--glass-bg-strong);
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   color: var(--text-secondary);
   font-size: 13px;
   text-align: center;
@@ -103,5 +101,15 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: calc(var(--header-height) + 8px) 20px 40px;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(var(--header-height) + 8px) 14px 40px;
+}
+
+.editorCard {
+  min-height: 100%;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  padding: 26px 20px;
 }
