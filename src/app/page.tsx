@@ -7,6 +7,7 @@ import { PropertyMenu } from "@/components/PropertyMenu";
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 import { useInboxEvents } from "@/hooks/useInboxEvents";
 import { useEdgeSwipeOpen } from "@/hooks/useEdgeSwipeOpen";
+import { useVisualViewportOffset } from "@/hooks/useVisualViewportOffset";
 import type { FileMeta } from "@/lib/types";
 import styles from "./page.module.css";
 
@@ -19,6 +20,8 @@ async function fetchFileList(): Promise<FileMeta[]> {
 }
 
 export default function Home() {
+  useVisualViewportOffset();
+
   const [filename, setFilename] = useState<string | null>(null);
   const [body, setBody] = useState("");
   const [properties, setProperties] = useState<Record<string, unknown>>({});
@@ -27,6 +30,7 @@ export default function Home() {
   const [files, setFiles] = useState<FileMeta[]>([]);
   const [externalConflict, setExternalConflict] = useState(false);
   const [deletedElsewhere, setDeletedElsewhere] = useState(false);
+  const [propertyMenuOpen, setPropertyMenuOpen] = useState(false);
 
   // Refs mirror latest state for use inside stable callbacks (debounce handler, SSE handler).
   const filenameRef = useRef(filename);
@@ -190,7 +194,12 @@ export default function Home() {
           <span />
           <span />
         </button>
-        <PropertyMenu properties={properties} onAdd={handleAddProperty} />
+        <PropertyMenu
+          properties={properties}
+          onAdd={handleAddProperty}
+          open={propertyMenuOpen}
+          onOpenChange={setPropertyMenuOpen}
+        />
       </header>
 
       {deletedElsewhere && (
@@ -218,7 +227,12 @@ export default function Home() {
 
       <main className={styles.editorArea}>
         <div className={styles.editorCard}>
-          <NoteEditor initialBody={body} resetKey={resetKey} onChange={handleEditorChange} />
+          <NoteEditor
+            initialBody={body}
+            resetKey={resetKey}
+            onChange={handleEditorChange}
+            onFocus={() => setPropertyMenuOpen(false)}
+          />
         </div>
       </main>
     </div>

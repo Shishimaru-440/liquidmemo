@@ -6,11 +6,12 @@ import styles from "./PropertyMenu.module.css";
 interface PropertyMenuProps {
   properties: Record<string, unknown>;
   onAdd: (key: string, value: string) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 /** Small popover for adding custom frontmatter properties (tags, status, etc.) to the current note. */
-export function PropertyMenu({ properties, onAdd }: PropertyMenuProps) {
-  const [open, setOpen] = useState(false);
+export function PropertyMenu({ properties, onAdd, open, onOpenChange }: PropertyMenuProps) {
   const [key, setKey] = useState("");
   const [value, setValue] = useState("");
 
@@ -29,7 +30,7 @@ export function PropertyMenu({ properties, onAdd }: PropertyMenuProps) {
       <button
         type="button"
         className={styles.trigger}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => onOpenChange(!open)}
         aria-label="プロパティを追加"
       >
         +Property

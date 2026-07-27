@@ -9,7 +9,7 @@
 
 .header {
   position: fixed;
-  top: 0;
+  top: var(--vv-offset-top);
   left: 0;
   right: 0;
   height: var(--header-height);
@@ -53,7 +53,7 @@
 
 .banner {
   position: fixed;
-  top: calc(var(--header-height) + 4px);
+  top: calc(var(--vv-offset-top) + var(--header-height) + 4px);
   left: 18px;
   right: 18px;
   z-index: 14;
@@ -106,10 +106,16 @@
 }
 
 .editorCard {
-  min-height: 100%;
+  /* height (not just min-height) so descendants can rely on flex:1 / % height to
+     actually fill it — with only min-height, this box's own height stays "auto",
+     which stops percentage/flex sizing from resolving all the way down. */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   border-radius: 28px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
-  padding: 26px 20px;
+  /* No padding here — it lives on NoteEditor's click-catching element instead, so the
+     padding strip itself is still tappable to focus (not just the actual text lines). */
 }

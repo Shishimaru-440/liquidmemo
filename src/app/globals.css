@@ -1,5 +1,6 @@
 :root {
   color-scheme: dark;
+  --vv-offset-top: 0px;
 
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-strong: rgba(255, 255, 255, 0.14);

@@ -1,7 +1,15 @@
 .wrapper {
   max-width: 720px;
+  width: 100%;
   margin: 0 auto;
-  min-height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.clickCatcher {
+  flex: 1;
+  padding: 26px 20px;
 }
 
 .wrapper :global(.milkdown) {
