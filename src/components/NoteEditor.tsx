@@ -7,6 +7,7 @@ import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { history } from "@milkdown/kit/plugin/history";
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import "@milkdown/kit/prose/view/style/prosemirror.css";
+import { imeEnterGuard } from "./imeEnterGuard";
 import styles from "./NoteEditor.module.css";
 
 interface NoteEditorProps {
@@ -32,6 +33,7 @@ function NoteEditorInner({
           if (markdown !== prevMarkdown) onChangeRef.current(markdown);
         });
       })
+      .use(imeEnterGuard)
       .use(commonmark)
       .use(listener)
       .use(history);
