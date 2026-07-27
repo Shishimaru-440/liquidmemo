@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { PropertyMenu } from "@/components/PropertyMenu";
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 import { useInboxEvents } from "@/hooks/useInboxEvents";
+import { useEdgeSwipeOpen } from "@/hooks/useEdgeSwipeOpen";
 import type { FileMeta } from "@/lib/types";
 import styles from "./page.module.css";
 
@@ -164,8 +165,10 @@ export default function Home() {
     [persist]
   );
 
+  const edgeSwipeHandlers = useEdgeSwipeOpen(() => setSidebarOpen(true), !sidebarOpen);
+
   return (
-    <div className={styles.page}>
+    <div className={styles.page} {...edgeSwipeHandlers}>
       <Sidebar
         open={sidebarOpen}
         files={files}

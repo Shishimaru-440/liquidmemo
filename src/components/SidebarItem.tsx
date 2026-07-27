@@ -11,49 +11,62 @@ interface SidebarItemProps {
   title: string;
   time: string;
   active: boolean;
+  /** Whether THIS row is the one currently revealed (single-open-at-a-time, like iOS). */
+  revealed: boolean;
   onOpen: () => void;
   onDelete: () => void;
+  onRevealChange: (revealed: boolean) => void;
 }
 
-export function SidebarItem({ title, time, active, onOpen, onDelete }: SidebarItemProps) {
-  const [dragX, setDragX] = useState(0);
-  const [dragging, setDragging] = useState(false);
+export function SidebarItem({
+  title,
+  time,
+  active,
+  revealed,
+  onOpen,
+  onDelete,
+  onRevealChange,
+}: SidebarItemProps) {
+  const [dragOffset, setDragOffset] = useState<number | null>(null); // non-null only while actively dragging
   const startXRef = useRef(0);
-  const startDragXRef = useRef(0);
+  const startRevealedRef = useRef(false);
   const draggedRef = useRef(false);
 
+  const restingX = revealed ? -DELETE_WIDTH : 0;
   const clamp = (x: number) => Math.min(0, Math.max(-DELETE_WIDTH, x));
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     startXRef.current = e.clientX;
-    startDragXRef.current = dragX;
+    startRevealedRef.current = revealed;
     draggedRef.current = false;
-    setDragging(true);
+    setDragOffset(restingX);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!dragging) return;
+    if (dragOffset === null) return;
     const delta = e.clientX - startXRef.current;
     if (Math.abs(delta) > DRAG_START_THRESHOLD) draggedRef.current = true;
-    setDragX(clamp(startDragXRef.current + delta));
+    setDragOffset(clamp((startRevealedRef.current ? -DELETE_WIDTH : 0) + delta));
   };
 
   const handlePointerUp = () => {
-    if (!dragging) return;
-    setDragging(false);
-    setDragX((current) => (current < -REVEAL_THRESHOLD ? -DELETE_WIDTH : 0));
+    if (dragOffset === null) return;
+    onRevealChange(dragOffset < -REVEAL_THRESHOLD);
+    setDragOffset(null);
   };
 
   const handleClick = () => {
     if (draggedRef.current) return; // this was a swipe, not a tap
-    if (dragX !== 0) {
-      setDragX(0); // tapping a revealed row closes it, like iOS
+    if (revealed) {
+      onRevealChange(false); // tapping a revealed row closes it, like iOS
       return;
     }
     onOpen();
   };
+
+  const x = dragOffset ?? restingX;
 
   return (
     <li className={styles.itemRow}>
@@ -64,8 +77,8 @@ export function SidebarItem({ title, time, active, onOpen, onDelete }: SidebarIt
         type="button"
         className={`${styles.item} ${active ? styles.itemActive : ""}`}
         style={{
-          transform: `translateX(${dragX}px)`,
-          transition: dragging ? "none" : "transform 0.25s var(--spring)",
+          transform: `translateX(${x}px)`,
+          transition: dragOffset === null ? "transform 0.25s var(--spring)" : "none",
         }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}

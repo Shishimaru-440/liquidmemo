@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { FileMeta } from "@/lib/types";
 import { SidebarItem } from "./SidebarItem";
 import styles from "./Sidebar.module.css";
@@ -13,6 +14,8 @@ interface SidebarProps {
   onNewNote: () => void;
   onDelete: (filename: string) => void;
 }
+
+const SCROLL_CLOSE_THRESHOLD = 12;
 
 function formatTime(mtimeMs: number): string {
   const date = new Date(mtimeMs);
@@ -33,6 +36,22 @@ export function Sidebar({
   onNewNote,
   onDelete,
 }: SidebarProps) {
+  const [revealedFilename, setRevealedFilename] = useState<string | null>(null);
+  const lastScrollTopRef = useRef(0);
+
+  // Closing the sidebar (scrim tap, opening a note, etc.) always closes any revealed row too.
+  useEffect(() => {
+    if (!open) setRevealedFilename(null);
+  }, [open]);
+
+  const handleListScroll = (e: React.UIEvent<HTMLUListElement>) => {
+    const top = e.currentTarget.scrollTop;
+    if (Math.abs(top - lastScrollTopRef.current) > SCROLL_CLOSE_THRESHOLD) {
+      setRevealedFilename(null);
+    }
+    lastScrollTopRef.current = top;
+  };
+
   return (
     <>
       <div
@@ -47,15 +66,17 @@ export function Sidebar({
             + New
           </button>
         </div>
-        <ul className={styles.list}>
+        <ul className={styles.list} onScroll={handleListScroll}>
           {files.map((file) => (
             <SidebarItem
               key={file.filename}
               title={file.title}
               time={formatTime(file.mtimeMs)}
               active={file.filename === currentFilename}
+              revealed={file.filename === revealedFilename}
               onOpen={() => onSelect(file.filename)}
               onDelete={() => onDelete(file.filename)}
+              onRevealChange={(revealed) => setRevealedFilename(revealed ? file.filename : null)}
             />
           ))}
           {files.length === 0 && <li className={styles.empty}>まだメモがないよ</li>}

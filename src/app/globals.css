@@ -45,11 +45,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* Kept quiet on purpose: two soft, low-opacity glows in the same cool family (no
+     competing hues) over a near-neutral charcoal base, so the glass surfaces stay
+     the visual focus instead of the backdrop. */
   background:
-    radial-gradient(ellipse 80% 60% at 15% 0%, rgba(120, 90, 220, 0.55), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 100% 20%, rgba(60, 140, 255, 0.45), transparent 60%),
-    radial-gradient(ellipse 80% 70% at 30% 100%, rgba(255, 100, 160, 0.3), transparent 60%),
-    linear-gradient(160deg, #14152b 0%, #1b1032 45%, #0d1226 100%);
+    radial-gradient(ellipse 60% 50% at 12% 0%, rgba(104, 92, 160, 0.22), transparent 65%),
+    radial-gradient(ellipse 60% 55% at 100% 100%, rgba(72, 108, 168, 0.16), transparent 65%),
+    linear-gradient(160deg, #17171f 0%, #1a1824 50%, #131319 100%);
   background-attachment: fixed;
 }
 
