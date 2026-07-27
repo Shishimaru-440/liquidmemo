@@ -21,8 +21,11 @@
   width: min(320px, 84vw);
   display: flex;
   flex-direction: column;
-  background: rgba(30, 24, 55, 0.55);
-  border-right: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(40, 32, 68, 0.6), rgba(24, 19, 46, 0.6));
+  box-shadow:
+    inset -1px 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    8px 0 32px rgba(0, 0, 0, 0.35);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   transform: translateX(-100%);
@@ -53,7 +56,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   background: var(--glass-bg-strong);
-  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
@@ -77,7 +80,28 @@
   gap: 4px;
 }
 
+.itemRow {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 76px;
+  background: linear-gradient(180deg, #ff6259, #e0392f);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .item {
+  position: relative;
+  z-index: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -86,20 +110,21 @@
   padding: 10px 12px;
   border-radius: 14px;
   text-align: left;
-  transition: background 0.2s var(--ease), transform 0.15s var(--spring);
+  background: rgb(32, 26, 56);
+  touch-action: pan-y;
 }
 
-.item:hover {
-  background: var(--glass-bg);
-}
-
-.item:active {
-  transform: scale(0.98);
+@media (hover: hover) and (pointer: fine) {
+  .item:hover {
+    background: rgb(42, 35, 70);
+  }
 }
 
 .itemActive {
   background: var(--glass-bg-strong);
-  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .itemTitle {

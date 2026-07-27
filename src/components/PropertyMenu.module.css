@@ -6,7 +6,7 @@
   padding: 8px 16px;
   border-radius: 999px;
   background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   font-size: 12px;
@@ -31,8 +31,8 @@
   width: 240px;
   padding: 14px;
   border-radius: 16px;
-  background: rgba(30, 24, 55, 0.7);
-  border: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(42, 34, 72, 0.75), rgba(24, 19, 46, 0.75));
+  box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   animation: pop 0.3s var(--spring);

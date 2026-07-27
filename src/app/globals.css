@@ -4,8 +4,17 @@
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-strong: rgba(255, 255, 255, 0.14);
   --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-blur: blur(24px);
+  /* saturate() is what keeps the blur from reading as flat gray — real "vibrancy" materials
+     always pair blur with a saturation boost so the colors behind the glass stay lively. */
+  --glass-blur: blur(24px) saturate(1.8);
   --glass-radius: 20px;
+  /* Three-layer "material dressing": bright rim catching light from above, a soft inner
+     glow at the base for depth, a hairline rim border, then an outer drop shadow for lift. */
+  --glass-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -10px 20px rgba(255, 255, 255, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 12px 32px rgba(0, 0, 0, 0.35);
 
   --text-primary: rgba(255, 255, 255, 0.94);
   --text-secondary: rgba(255, 255, 255, 0.6);

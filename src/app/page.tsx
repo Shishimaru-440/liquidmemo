@@ -123,6 +123,17 @@ export default function Home() {
     if (filenameRef.current) openNote(filenameRef.current);
   }, [openNote]);
 
+  const deleteNote = useCallback(
+    async (targetFilename: string) => {
+      await fetch(`/api/files/${encodeURIComponent(targetFilename)}`, { method: "DELETE" });
+      if (targetFilename === filenameRef.current) {
+        startNewNote();
+      }
+      refreshFilesNow();
+    },
+    [startNewNote, refreshFilesNow]
+  );
+
   useInboxEvents((event) => {
     refreshFiles();
     if (event.filename !== filenameRef.current) return;
@@ -162,6 +173,7 @@ export default function Home() {
         onClose={() => setSidebarOpen(false)}
         onSelect={openNote}
         onNewNote={startNewNote}
+        onDelete={deleteNote}
       />
 
       <header className={styles.header}>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { FileMeta } from "@/lib/types";
+import { SidebarItem } from "./SidebarItem";
 import styles from "./Sidebar.module.css";
 
 interface SidebarProps {
@@ -10,6 +11,7 @@ interface SidebarProps {
   onClose: () => void;
   onSelect: (filename: string) => void;
   onNewNote: () => void;
+  onDelete: (filename: string) => void;
 }
 
 function formatTime(mtimeMs: number): string {
@@ -29,6 +31,7 @@ export function Sidebar({
   onClose,
   onSelect,
   onNewNote,
+  onDelete,
 }: SidebarProps) {
   return (
     <>
@@ -46,18 +49,14 @@ export function Sidebar({
         </div>
         <ul className={styles.list}>
           {files.map((file) => (
-            <li key={file.filename}>
-              <button
-                type="button"
-                className={`${styles.item} ${
-                  file.filename === currentFilename ? styles.itemActive : ""
-                }`}
-                onClick={() => onSelect(file.filename)}
-              >
-                <span className={styles.itemTitle}>{file.title}</span>
-                <span className={styles.itemTime}>{formatTime(file.mtimeMs)}</span>
-              </button>
-            </li>
+            <SidebarItem
+              key={file.filename}
+              title={file.title}
+              time={formatTime(file.mtimeMs)}
+              active={file.filename === currentFilename}
+              onOpen={() => onSelect(file.filename)}
+              onDelete={() => onDelete(file.filename)}
+            />
           ))}
           {files.length === 0 && <li className={styles.empty}>まだメモがないよ</li>}
         </ul>

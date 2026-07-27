@@ -9,7 +9,10 @@ const LEGACY_IME_KEYCODE = 229;
 
 // How long after compositionend a stray insertLineBreak is still treated as
 // part of the same IME confirmation rather than a deliberate new Enter press.
-const GRACE_MS = 150;
+// Kept short: the spurious event fires effectively in the same tick as
+// compositionend, so a wide window only adds risk of swallowing a real Enter
+// (and confusing the on-screen keyboard's focus state) without catching more bugs.
+const GRACE_MS = 60;
 
 /**
  * Guards against the extra line break that Japanese/Chinese/Korean IME input commonly
