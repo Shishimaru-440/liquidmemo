@@ -120,7 +120,10 @@
 }
 
 .itemActive {
-  background: var(--glass-bg-strong);
+  /* Layered, not swapped: a translucent highlight over the SAME opaque backing as
+     .item, not instead of it — a flat rgba background here let the delete button
+     underneath show through the "active" row. */
+  background: linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)), rgb(26, 26, 30);
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.35),
     inset 0 0 0 1px rgba(255, 255, 255, 0.16);
